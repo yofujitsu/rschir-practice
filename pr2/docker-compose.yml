@@ -12,8 +12,13 @@ services:
   db:
     build:
       context: ./db
+    volumes:
+      - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: mydb
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
+
+volumes:
+  db-data:
