@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: service/db
+      dockerfile: service/db/Dockerfile
+    environment:
+      MYSQL_USERNAME: user
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: productsDB
+    ports:
+      - "3307:3307"
+    volumes:
+      - ./service/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  web:
+    build:
+      context: service/web
+      dockerfile: service/web/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./service/web/src:/var/www/html
+
+    links:
+      - db
+
+volumes:
+  db_data:
